@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Checker - Dataman</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Answer Checker</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Back to Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Answer Checker HTML from previous section -->
+        <h2 id="problem">Press "Start" to Begin!</h2>
+        <div>
+            <input type="number" id="userAnswer" placeholder="Enter your answer">
+        </div>
+        <div>
+            <button id="checkAnswer" onclick="checkAnswer()">Check Answer</button>
+            <button id="startGame" onclick="startGame()">Start Game</button>
+        </div>
+        <div class="feedback" id="feedbackMessage"></div>
+        <div id="scoreBoard">
+            <p>Correct Answers: <span id="correctCount">0</span></p>
+            <p>Attempted Problems: <span id="attemptedCount">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for the Answer Checker
+        let num1, num2, correctAnswer;
+        let correctCount = 0;
+        let attemptedCount = 0;
+        const totalProblems = 10;
+
+        function generateProblem() {
+            num1 = Math.floor(Math.random() * 10) + 1;
+            num2 = Math.floor(Math.random() * 10) + 1;
+            correctAnswer = num1 + num2;
+            document.getElementById('problem').innerText = `What is ${num1} + ${num2}?`;
+        }
+
+        function startGame() {
+            correctCount = 0;
+            attemptedCount = 0;
+            document.getElementById('correctCount').innerText = correctCount;
+            document.getElementById('attemptedCount').innerText = attemptedCount;
+            document.getElementById('feedbackMessage').innerText = "";
+            generateProblem();
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('userAnswer').value);
+            attemptedCount++;
+            document.getElementById('attemptedCount').innerText = attemptedCount;
+
+            if (userAnswer === correctAnswer) {
+                document.getElementById('feedbackMessage').innerText = "Correct! 💡 Flashing lights!";
+                correctCount++;
+                document.getElementById('correctCount').innerText = correctCount;
+            } else {
+                document.getElementById('feedbackMessage').innerText = "EEE ⚠️ Wrong answer! Try again.";
+            }
+
+            if (attemptedCount < totalProblems) {
+                setTimeout(generateProblem, 1000);
+            } else {
+                document.getElementById('feedbackMessage').innerText += ` Game Over! You got ${correctCount} correct out of ${totalProblems}.`;
+            }
+        }
+    </script>
+</body>
+</html>
